@@ -9,6 +9,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import { contactsReducer } from "./contacts";
+import { authReducer } from "./auth";
 
 const middleware = [
   ...getDefaultMiddleware({
@@ -22,6 +23,7 @@ const middleware = [
 const store = configureStore({
   reducer: {
     contacts: contactsReducer,
+    auth: authReducer,
   },
   middleware,
   devTools: process.env.NODE_ENV === "development",
