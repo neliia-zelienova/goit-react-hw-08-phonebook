@@ -2,23 +2,28 @@ import React from "react";
 import { connect } from "react-redux";
 import styles from "./ContactItem.module.css";
 import { contactsOperations } from "../../redux/contacts";
+import { ListGroup, Button } from "react-bootstrap";
 
 const ContactItem = ({ contact, onDelete, startEdit }) => {
   return (
-    <li className={styles.contacts__item}>
-      <span className={styles.contacts__name}>{`${contact.name}:`}</span>
+    <ListGroup.Item as="li" min-width="400">
+      <span className={styles.contacts__name}>{contact.name}</span>
       <span className={styles.contacts__number}>{contact.number}</span>
-      <button
+      <Button
+        variant="danger"
         type="button"
-        className={styles.contacts__delete__btn}
         onClick={() => onDelete(contact.id)}
-      ></button>
-      <button
+      >
+        Delete
+      </Button>{" "}
+      <Button
+        variant="info"
         type="button"
-        className={styles.contacts__edit__btn}
         onClick={() => startEdit(contact.id)}
-      ></button>
-    </li>
+      >
+        Edit
+      </Button>
+    </ListGroup.Item>
   );
 };
 

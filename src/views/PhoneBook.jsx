@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import ContactsList from "../components/ContactsList";
 import Filter from "../components/Filter";
 import ContactForm from "../components/ContactForm";
-import Container from "../components/Container";
 import { connect } from "react-redux";
 import { contactsOperations } from "../redux/contacts";
+
+import { Container } from "react-bootstrap";
 
 class PhoneBook extends Component {
   componentDidMount() {
@@ -12,15 +13,11 @@ class PhoneBook extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <Container title="Phonebook">
-          <ContactForm />
-        </Container>
-        <Container title="Contacts">
-          <Filter />
-          <ContactsList />
-        </Container>
-      </div>
+      <>
+        <ContactForm />
+        <Filter />
+        <ContactsList />
+      </>
     );
   }
 }

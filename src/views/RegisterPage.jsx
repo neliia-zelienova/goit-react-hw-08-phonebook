@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { authOperations } from "../redux/auth";
+import { authOperations, authSelectors } from "../redux/auth";
+import { Jumbotron, Button, Form, Row, Col, Toast } from "react-bootstrap";
 
 class RegisterPage extends Component {
   state = {
     name: "Adrian Cross",
     email: "across@mail.com",
     password: "examplepassword",
-    // confirmPassword: "",
   };
 
   handleInput = ({ target: { name, value } }) => {
@@ -23,48 +23,75 @@ class RegisterPage extends Component {
 
   render() {
     return (
-      <div>
-        <form action="">
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Youre name"
-            id=""
-            onChange={this.handleInput}
-          />
-          <label htmlFor="email">Email</label>
-          <input
-            type="text"
-            name="email"
-            placeholder="youremail@mailagent.com"
-            id=""
-            onChange={this.handleInput}
-          />
-          <label htmlFor="password">Create password</label>
-          <input
-            type="password"
-            name="password"
-            id=""
-            onChange={this.handleInput}
-          />
-          <label htmlFor="confirmPassword">Repeat password</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            id=""
-            onChange={this.handleInput}
-          />
-          <button type="submit" onClick={this.handleSubmit}>
-            Register
-          </button>
-        </form>
-      </div>
+      <Jumbotron>
+        <Form action="">
+          <Form.Group as={Row} controlId="newUserName">
+            <Form.Label column sm={2} htmlFor="name">
+              Name
+            </Form.Label>
+            <Col sm={5}>
+              <Form.Control
+                type="text"
+                name="name"
+                value={this.state.name}
+                onChange={this.handleInput}
+              />
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} controlId="newUserEmail">
+            <Form.Label column sm={2} htmlFor="email">
+              Email
+            </Form.Label>
+            <Col sm={5}>
+              <Form.Control
+                type="text"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleInput}
+              />
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} controlId="newUserPassword">
+            <Form.Label column sm={2} htmlFor="password">
+              Create password
+            </Form.Label>
+            <Col sm={5}>
+              <Form.Control
+                type="password"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleInput}
+              />
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row}>
+            <Col sm={{ span: 10, offset: 2 }}>
+              <Button
+                variant="primary"
+                type="submit"
+                onClick={this.handleSubmit}
+              >
+                Register
+              </Button>
+            </Col>
+          </Form.Group>
+        </Form>
+        <Toast show={this.props.errorMessage}>
+          <Toast.Header closeButton={false}>
+            <strong className="mr-auto">Error</strong>
+          </Toast.Header>
+          <Toast.Body>{this.props.errorMessage}</Toast.Body>
+        </Toast>
+      </Jumbotron>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  errorMessage: authSelectors.getErrorMessage(state),
+});
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (data) => dispatch(authOperations.register(data)),
 });
 
-export default connect(null, mapDispatchToProps)(RegisterPage);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);

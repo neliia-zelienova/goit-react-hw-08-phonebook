@@ -1,33 +1,37 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { authSelectors, authOperations } from "../redux/auth";
+import { Navbar, Button, Form, Toast } from "react-bootstrap";
 
-const AppBar = ({ userEmail, isAuthorazed, onLogout }) => {
+const AppBar = ({ userEmail, isAuthorazed, errorMessage, onLogout }) => {
   return (
-    <div>
-      <Link to="/">Home</Link>
+    <Navbar bg="light" variant="light">
+      <Navbar.Brand href="/">PhoneBook</Navbar.Brand>
 
-      {isAuthorazed ? (
+      {isAuthorazed && (
         <>
-          <p>{userEmail}</p>
-          <Link to="/contacts">Contacts</Link>
-          <button type="button" onClick={onLogout}>
-            Logout
-          </button>
+          <Navbar.Toggle />
+          <Toast show={errorMessage}>
+            <Toast.Body>{errorMessage}</Toast.Body>
+          </Toast>
+          <Navbar.Collapse className="justify-content-end">
+            <Navbar.Text className="text-center mr-sm-2">{`Signed in as: ${userEmail}`}</Navbar.Text>
+            <Form inline>
+              <Button type="button" onClick={onLogout} variant="danger">
+                Logout
+              </Button>
+            </Form>
+          </Navbar.Collapse>
         </>
-      ) : (
-        <button type="button">
-          <Link to="/login">Login</Link>
-        </button>
       )}
-    </div>
+    </Navbar>
   );
 };
 
 const mapStateToProps = (state) => ({
   userEmail: authSelectors.getUserEmail(state),
   isAuthorazed: authSelectors.getIsAuthorized(state),
+  errorMessage: authSelectors.getErrorMessage(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
