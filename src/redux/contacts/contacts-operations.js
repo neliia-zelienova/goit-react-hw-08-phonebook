@@ -13,8 +13,6 @@ const {
   deleteContactError,
 } = actions;
 
-axios.defaults.baseURL = "http://localhost:4040";
-
 const doesContactExist = (contacts, name) => {
   if (contacts && contacts.find((contact) => contact.name === name))
     return true;
@@ -27,7 +25,7 @@ const getContacts = () => async (dispatch) => {
     const { data } = await axios.get("/contacts");
     dispatch(getContactsSuccess(data));
   } catch (error) {
-    dispatch(getContactsError(error));
+    dispatch(getContactsError(error.message));
   }
 };
 
@@ -39,7 +37,7 @@ const addContact = (name, number) => async (dispatch, getState) => {
       const { data } = await axios.post("/contacts", { name, number });
       dispatch(addContactSuccess(data));
     } catch (error) {
-      dispatch(addContactError(error));
+      dispatch(addContactError(error.message));
     }
   } else alert(`${name} is already in contacts`);
 };
@@ -50,7 +48,7 @@ const deleteContact = (id) => async (dispatch) => {
     await axios.delete(`/contacts/${id}`);
     dispatch(deleteContactSuccess(id));
   } catch (error) {
-    dispatch(deleteContactError(error));
+    dispatch(deleteContactError(error.message));
   }
 };
 

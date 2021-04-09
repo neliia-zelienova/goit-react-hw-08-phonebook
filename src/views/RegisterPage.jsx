@@ -4,9 +4,9 @@ import { authOperations } from "../redux/auth";
 
 class RegisterPage extends Component {
   state = {
-    name: "",
-    email: "",
-    password: "",
+    name: "Adrian Cross",
+    email: "across@mail.com",
+    password: "examplepassword",
     // confirmPassword: "",
   };
 

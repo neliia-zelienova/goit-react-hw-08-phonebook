@@ -1,27 +1,70 @@
 import "./App.css";
-import React from "react";
-import PhoneBook from "./components/PhoneBook";
+import React, { Component, Suspense, lazy } from "react";
 import { Route, Switch } from "react-router-dom";
 import routes from "./routes";
-import HomePage from "./views/HomePage";
-import RegisterPage from "./views/RegisterPage";
-import LoginPage from "./views/LoginPage";
-import NotFoundPage from "./views/NotFoundPage";
 import AppBar from "./components/AppBar";
+import { authOperations } from "./redux/auth";
+import { connect } from "react-redux";
+import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
 
-const App = () => {
-  return (
-    <div className="App">
-      <AppBar userEmail={"no email"} />
-      <Switch>
-        <Route exact path={routes.home} component={HomePage} />
-        <Route exact path={routes.register} component={RegisterPage} />
-        <Route exact path={routes.login} component={LoginPage} />
-        <Route exact path={routes.contacts} component={PhoneBook} />
-        <Route component={NotFoundPage} />
-      </Switch>
-    </div>
-  );
-};
+const HomePage = lazy(() =>
+  import("./views/HomePage" /* webpackChunkName: "home-page" */)
+);
+const RegisterPage = lazy(() =>
+  import("./views/RegisterPage" /* webpackChunkName: "register-page" */)
+);
+const LoginPage = lazy(() =>
+  import("./views/LoginPage" /* webpackChunkName: "login-page" */)
+);
+const PhoneBook = lazy(() =>
+  import("./views/PhoneBook" /* webpackChunkName: "phone-book-page" */)
+);
+const NotFoundPage = lazy(() =>
+  import("./views/NotFoundPage" /* webpackChunkName: "not-found-page" */)
+);
 
-export default App;
+class App extends Component {
+  componentDidMount() {
+    this.props.checkUser();
+  }
+  render() {
+    return (
+      <div className="App">
+        <AppBar userEmail={"no email"} />
+        <Suspense fallback={<p>Loading...</p>}>
+          <Switch>
+            <Route exact path={routes.home} component={HomePage} />
+            <PublicRoute
+              exact
+              path={routes.register}
+              redirectTo={routes.home}
+              restricted
+              component={RegisterPage}
+            />
+            <PublicRoute
+              exact
+              path={routes.login}
+              redirectTo={routes.home}
+              restricted
+              component={LoginPage}
+            />
+            <PrivateRoute
+              exact
+              path={routes.contacts}
+              redirectTo={routes.home}
+              component={PhoneBook}
+            />
+            <Route component={NotFoundPage} />
+          </Switch>
+        </Suspense>
+      </div>
+    );
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  checkUser: () => dispatch(authOperations.getUserData()),
+});
+
+export default connect(null, mapDispatchToProps)(App);

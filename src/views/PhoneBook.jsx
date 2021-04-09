@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import ContactsList from "./ContactsList/ContactsList";
-import Filter from "./Filter/Filter";
-import ContactForm from "./ContactForm/ContactForm";
-import Container from "./Container/Container";
+import ContactsList from "../components/ContactsList";
+import Filter from "../components/Filter";
+import ContactForm from "../components/ContactForm";
+import Container from "../components/Container";
 import { connect } from "react-redux";
 import { contactsOperations } from "../redux/contacts";
 
@@ -30,4 +30,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(null, mapDispatchToProps)(PhoneBook);
-

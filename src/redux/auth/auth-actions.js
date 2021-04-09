@@ -4,11 +4,11 @@ const registerRequest = createAction('auth/registerRequest');
 const registerSuccess = createAction("auth/registerSuccess");
 const registerError = createAction("auth/registerError");
 
-const loginRequest = createAction("auth/rloginequest");
+const loginRequest = createAction("auth/logineRquest");
 const loginSuccess = createAction("auth/loginSuccess");
 const loginError = createAction("auth/loginError");
 
-const logoutRequest = createAction('auth/logoutequest');
+const logoutRequest = createAction('auth/logoutRequest');
 const logoutSuccess = createAction("auth/logoutSuccess");
 const logoutError = createAction("auth/logoutError");
 
