@@ -12,6 +12,10 @@ const deleteContactRequest = createAction("contacts/deleteContactRequest");
 const deleteContactSuccess = createAction("contacts/deleteContactSuccess");
 const deleteContactError = createAction("contacts/deleteContactError");
 
+const editContactRequest = createAction("contacts/editContactRequest");
+const editContactSuccess = createAction("contacts/editContactSuccess");
+const editContactError = createAction("contacts/editContactError");
+
 const changeFilter = createAction("contacts/filter");
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -26,4 +30,7 @@ export default {
   deleteContactSuccess,
   deleteContactError,
   changeFilter,
+  editContactRequest,
+  editContactSuccess,
+  editContactError,
 };

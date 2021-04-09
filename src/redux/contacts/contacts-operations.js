@@ -11,6 +11,9 @@ const {
   deleteContactRequest,
   deleteContactSuccess,
   deleteContactError,
+  editContactRequest,
+  editContactSuccess,
+  editContactError,
 } = actions;
 
 const doesContactExist = (contacts, name) => {
@@ -52,9 +55,21 @@ const deleteContact = (id) => async (dispatch) => {
   }
 };
 
+const editContact = (id, name, number) => async (dispatch) => {
+  console.log("id, name, number", id, name, number);
+  dispatch(editContactRequest());
+  try {
+    const { data } = await axios.patch(`/contacts/${id}`, { name, number });
+    dispatch(editContactSuccess(data));
+  } catch (error) {
+    dispatch(editContactError(error.message));
+  }
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getContacts,
   addContact,
   deleteContact,
+  editContact,
 };
