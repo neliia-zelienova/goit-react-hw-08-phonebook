@@ -18,16 +18,16 @@ const {
   changeFilter,
 } = actions;
 
-
 const contacts = createReducer([], {
   [getContactsSuccess]: (_, { payload }) => payload,
   [addContactSuccess]: (state, { payload }) => [...state, payload],
   [deleteContactSuccess]: (state, { payload }) =>
     state.filter(({ id }) => id !== payload),
-  [editContactSuccess]: (state, { payload }) => [
-    ...state.filter(({ id }) => id !== payload.id),
-    payload,
-  ],
+  [editContactSuccess]: (state, { payload }) =>
+    state.map((item) => {
+      if (item.id === payload.id) return payload;
+      else return item;
+    }),
 });
 
 const filter = createReducer("", {
